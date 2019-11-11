@@ -2,7 +2,6 @@ import random
 from dataclasses import dataclass
 from datetime import timedelta, date
 import datetime
-import numpy as np
 
 
 @dataclass
@@ -10,9 +9,9 @@ class FinancialStability:
     """
     class keeping data for financial stability
     """
-    id: int
     date: datetime.date
     own_capital: float
+    borrowed_capital: float
     assets: float
     lt_liabilities: float
     current_liability: float
@@ -20,10 +19,18 @@ class FinancialStability:
     non_current_assets: float
     long_credits: float
 
+    def __init__(self, date, own_capital, borrowed_capital, current_liability, current_asset, long_credits):
+        self.date = date
+        self.own_capital = own_capital
+        self.borrowed_capital = borrowed_capital
+        self.current_liability = current_liability
+        self.current_asset = current_asset
+        self.long_credits = long_credits
+
     def __str__(self):
-        return f'{self.id}, ' \
-               f'{self.date}, '\
+        return f'{self.date}, '\
                f'{self.own_capital:.2f}, '\
+               f'{self.borrowed_capital:.2f}, '\
                f'{self.assets:.2f}, '\
                f'{self.lt_liabilities:.2f}, '\
                f'{self.current_liability:.2f}, '\
@@ -32,6 +39,7 @@ class FinancialStability:
                f'{self.long_credits:.2f}\n'
 
 
+@dataclass
 class Personal:
     """
     class keeping data for personal
@@ -89,34 +97,35 @@ class Investment:
                f'{self.long_credits:.2f}\n'
 
 
-def write_csv(name: str, lines: int):
-    file_name = 'data/train/' + name + '.csv'
-    file = open(file_name, 'a+')
-    title = 'id, Date, Income, Outcome, Long Term Liabilities, Current Liabilities, Current Asset, '\
-                'Non Current Asset, Long Credits\n'
+def write_csv_finance(name: str, first_date, last_date=date.today()):
+    file = open(file_name(name), 'a+')
+    file.write(title_csv(FinancialStability))
 
-    file.write(title)
+    if first_date < date.today():
+        lines = int((date.today() - first_date).days)
+    else:
+        lines = int((last_date - date.today()).days)
 
-    first_date = datetime.date(2020, 1, 1)
-    lab = 0
     for i in range(lines):
-        fs = Investment(
-            id=i,
-            date=first_date + timedelta(days=i + 1),
-            income=random.uniform(1000000 + i * 100, 1500000 + i * 150),
-            outcome=random.uniform(1000000 - i * 100, 1500000 - i * 150),
-            current_liability=lab,
-            current_asset=random.uniform(10000000 + i * 1000, 90000000 + i * 1500),
-            long_credits=random.uniform(1000000 + i * 100, 1500000 + i * 150) * 0.33,
+        fs = FinancialStability(
+            date=first_date + timedelta(days=i+1),
+            own_capital=random.uniform(10**7 + i * 10**4, 15**7 + i * 10**4),
+            borrowed_capital=random.uniform(7**7 + i * 10**4, 10**7 - i * 10**4),
+            current_liability=random.uniform(7**7 + i * 10**7, 10**7 - i * 10**4) * 0.33,
+            current_asset=random.uniform(7**7 + i * 10**4, 10**7 - i * 10**4),
+            long_credits=random.uniform(7**7 + i * 10**4, 10**7 - i * 10**4) * 0.66,
         )
-        lab += fs.income
+        fs.assets = 0.5 * fs.own_capital + fs.current_asset
+        fs.lt_liabilities = fs.long_credits + fs.current_liability
+        fs.non_current_assets = fs.assets - fs.current_asset
+
         file.write(str(fs))
 
 
 def write_csv_personal(name: str, first_date, last_date=date.today()):
-    file_name = 'data/train/' + name + '.csv'
-    file = open(file_name, 'a+')
+    file = open(file_name(name), 'a+')
     file.write(title_csv(Personal))
+
     if first_date < date.today():
         lines = int((date.today() - first_date).days)
     else:
@@ -151,5 +160,17 @@ def title_csv(Name):
     return result[:-2] + '\n'
 
 
-write_csv_personal(name='train_personal', first_date=date(2007, 1, 1))
-write_csv_personal(name='test_personal', first_date=date.today(), last_date=date(2021, 12, 31))
+def file_name(name: str):
+    if 'train' in name:
+        return 'data/train/' + name + '.csv'
+    elif 'test' in name:
+        return 'data/test/' + name + '.csv'
+    else:
+        return 'data/' + name + '.csv'
+
+
+# write_csv_personal(name='train_personal', first_date=date(2007, 1, 1))
+# write_csv_personal(name='test_personal', first_date=date.today(), last_date=date(2021, 12, 31))
+write_csv_finance(name='train_finance', first_date=date(2007, 1, 1))
+write_csv_finance(name='test_finance', first_date=date.today(), last_date=date(2021, 12, 31))
+
