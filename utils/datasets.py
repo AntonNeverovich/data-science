@@ -44,7 +44,7 @@ class Personal:
     """
     class keeping data for personal
     """
-    id: int
+    id: str
     birth_date: datetime.date
     hiring_date: datetime.date
     dismissal_date: datetime.date
@@ -54,10 +54,8 @@ class Personal:
     working_hours: int
     missed_hours: int
 
-    def __init__(self, birth_date, hiring_date, dismissal_date, sex, qualification, salary):
+    def __init__(self, birth_date, sex, qualification, salary):
         self.birth_date = birth_date
-        self.hiring_date = hiring_date
-        self.dismissal_date = dismissal_date
         self.sex = sex
         self.qualification = qualification
         self.salary = salary
@@ -123,7 +121,7 @@ def write_csv_finance(name: str, first_date, last_date=date.today()):
 
 
 def write_csv_personal(name: str, first_date, last_date=date.today()):
-    file = open(file_name(name), 'a+')
+    file = open(file_name(name), 'w')
     file.write(title_csv(Personal))
 
     if first_date < date.today():
@@ -133,17 +131,17 @@ def write_csv_personal(name: str, first_date, last_date=date.today()):
 
     for i in range(lines):
         fs = Personal(
-            birth_date=first_date + timedelta(days=int(random.uniform(-25550, -6570))),
-            hiring_date=first_date + timedelta(days=int(random.triangular(0, 4538, 0))),
-            dismissal_date=first_date + timedelta(days=int(random.triangular(0, 4538, 0))),
+            birth_date=first_date + timedelta(days=int(random.triangular(-25550, -6570, -9000))),
             sex=int(random.choice([True, False])),
             qualification=int(random.uniform(0, 10)),
-            salary=random.triangular(20000 + i * 5, 500000 + i * 60, 90000 + i * 5),
+            salary=random.triangular(20000 + i * 5, 500000 + i * 60, 60000 + i * 5),
         )
-        fs.id = int(abs((fs.__hash__() + random.gauss(fs.__hash__(), 0.75)) / random.randint(100000000, 999999999)))
-        experience = int((date.today() - fs.hiring_date).days) * (247 * 8 / 365) if is_working else int((fs.dismissal_date - fs.hiring_date).days) * (247 * 8 / 365)
+        fs.id = str(random.randint(100, 999)) + str(random.randint(100, 999)) + str(random.randint(100, 999))
+        fs.hiring_date = first_date + timedelta(days=int(random.uniform(0, int(date.today().day) - 1)))
+        experience = int(random.triangular(90, int((date.today() - fs.hiring_date).days), 0))
+        fs.dismissal_date = random.choice([0, fs.hiring_date + timedelta(days=experience)])
         fs.missed_hours = int(random.triangular(0, 168, 40))
-        fs.working_hours = int(experience - fs.missed_hours)
+        fs.working_hours = int((experience * (227 * 8 / 365)) - fs.missed_hours)
 
         file.write(str(fs))
 
@@ -169,8 +167,9 @@ def file_name(name: str):
         return 'data/' + name + '.csv'
 
 
-# write_csv_personal(name='train_personal', first_date=date(2007, 1, 1))
-# write_csv_personal(name='test_personal', first_date=date.today(), last_date=date(2021, 12, 31))
-write_csv_finance(name='train_finance', first_date=date(2007, 1, 1))
-write_csv_finance(name='test_finance', first_date=date.today(), last_date=date(2021, 12, 31))
+write_csv_personal(name='train_personal', first_date=date(2007, 1, 1))
+write_csv_personal(name='test_personal', first_date=date.today(), last_date=date(2021, 12, 31))
+# write_csv_finance(name='train_finance', first_date=date(2007, 1, 1))
+# write_csv_finance(name='test_finance', first_date=date.today(), last_date=date(2021, 12, 31))
+
 

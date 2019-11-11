@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="06da4643-4958-49e6-a723-1d81061d860c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/train/test_finance_stability.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/train/train_finance_stability.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/train/test_personal.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/train/train_personal.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/train/train_personal.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/datasets.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/datasets.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -102,7 +100,7 @@
       <workItem from="1573384655251" duration="38000" />
       <workItem from="1573384711174" duration="10581000" />
       <workItem from="1573458414568" duration="696000" />
-      <workItem from="1573459121877" duration="12869000" />
+      <workItem from="1573459121877" duration="15303000" />
     </task>
     <servers />
   </component>
@@ -121,6 +119,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/DataScience$datasets.coverage" NAME="datasets Coverage Results" MODIFIED="1573476319202" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
+    <SUITE FILE_PATH="coverage/DataScience$datasets.coverage" NAME="datasets Coverage Results" MODIFIED="1573479343573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/" />
   </component>
 </project>
