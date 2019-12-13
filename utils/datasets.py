@@ -167,8 +167,8 @@ def file_name(name: str):
         return 'data/' + name + '.csv'
 
 
-write_csv_personal(name='train_personal', first_date=date(2007, 1, 1))
-write_csv_personal(name='test_personal', first_date=date.today(), last_date=date(2021, 12, 31))
+# write_csv_personal(name='train_personal', first_date=date(2007, 1, 1))
+# write_csv_personal(name='test_personal', first_date=date.today(), last_date=date(2021, 12, 31))
 # write_csv_finance(name='train_finance', first_date=date(2007, 1, 1))
 # write_csv_finance(name='test_finance', first_date=date.today(), last_date=date(2021, 12, 31))
 
