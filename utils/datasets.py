@@ -173,3 +173,4 @@ def file_name(name: str):
 # write_csv_finance(name='test_finance', first_date=date.today(), last_date=date(2021, 12, 31))
 
 
+map()
